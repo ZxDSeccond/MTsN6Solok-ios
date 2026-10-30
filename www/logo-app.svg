@@ -1,0 +1,97 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2E6E5E"/>
+      <stop offset="50%" stop-color="#1E5C4D"/>
+      <stop offset="100%" stop-color="#153E36"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8E9AF"/>
+      <stop offset="40%" stop-color="#D9B65B"/>
+      <stop offset="70%" stop-color="#F3D78A"/>
+      <stop offset="100%" stop-color="#B8872F"/>
+    </linearGradient>
+    <linearGradient id="wingGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C1E0D2"/>
+      <stop offset="30%" stop-color="#7BAE90"/>
+      <stop offset="100%" stop-color="#2F6A57"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000000" flood-opacity="0.30"/>
+    </filter>
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="80" y="80" width="864" height="864" rx="180" fill="url(#bgGrad)" filter="url(#shadow)"/>
+
+  <path d="M180 770 L844 770 L844 658 Q760 620 730 552 L690 714 L600 640 L532 700 L470 628 L410 700 L344 640 L272 714 L194 556 Q166 618 180 770 Z"
+        fill="#114F43" opacity="0.9"/>
+
+  <g transform="translate(0 10)">
+    <path d="M441 640 L555 462 L637 527 L561 651 L441 640 Z" fill="url(#goldGrad)"/>
+    <path d="M548 663 L680 470 L803 650 L590 701 L548 663 Z" fill="url(#goldGrad)"/>
+    <path d="M240 670 L470 470 L548 663 L383 690 L240 670 Z" fill="url(#goldGrad)"/>
+
+    <path d="M512 255 L570 320 L630 333 L595 388 L630 445 L570 462 L514 518 L454 462 L396 445 L430 388 L396 333 L454 320 L512 255 Z"
+          fill="url(#goldGrad)" stroke="#F6E299" stroke-width="8"/>
+    <path d="M512 294 L550 371 L636 352 L570 420 L592 504 L512 458 L432 504 L454 420 L388 352 L474 371 L512 294 Z"
+          fill="#F7D86C" opacity="0.8"/>
+
+    <g filter="url(#softGlow)">
+      <path d="M512 310 L530 374 L592 374 L540 411 L560 475 L512 437 L464 475 L484 411 L432 374 L494 374 Z" fill="#FFF3B8"/>
+    </g>
+
+    <path d="M236 640 C 325 540, 390 470, 490 430 C 446 520, 384 560, 236 640 Z"
+          fill="url(#wingGrad)" opacity="0.95"/>
+    <path d="M788 640 C 698 545, 640 480, 512 430 C 560 515, 621 560, 788 640 Z"
+          fill="url(#wingGrad)" opacity="0.95"/>
+
+    <path d="M512 607 C 607 544, 660 470, 702 392 L799 440 L758 530 L630 586 L512 607 Z"
+          fill="url(#wingGrad)"/>
+    <path d="M512 607 C 417 544, 365 470, 324 392 L227 440 L268 530 L396 586 L512 607 Z"
+          fill="url(#wingGrad)"/>
+
+    <path d="M500 420 C 450 470, 415 526, 392 588 C 454 568, 508 546, 560 607 C 537 561, 522 491, 500 420 Z"
+          fill="#0C5448" opacity="0.5"/>
+
+    <path d="M510 230 C 590 330, 624 390, 620 466 C 594 420, 540 375, 510 356 C 474 386, 423 424, 380 466 C 385 392, 446 321, 510 230 Z"
+          fill="url(#goldGrad)"/>
+  </g>
+
+  <g transform="translate(0 0)">
+    <path d="M200 700 L824 700 L824 750 Q824 790 780 790 L244 790 Q200 790 200 750 Z" fill="#0F4B41" opacity="0.7"/>
+    <path d="M220 690 L804 690 L804 720 L220 720 Z" fill="#D9B65B" opacity="0.9"/>
+    <path d="M260 690 L220 720 L260 665 L260 690 Z" fill="#D9B65B"/>
+    <path d="M764 690 L804 720 L764 665 L764 690 Z" fill="#D9B65B"/>
+  </g>
+
+  <g transform="translate(0 0)">
+    <path d="M228 458 L378 200 L470 275 L362 462 L228 458 Z" fill="url(#goldGrad)"/>
+    <path d="M796 458 L646 200 L554 275 L662 462 L796 458 Z" fill="url(#goldGrad)"/>
+    <path d="M382 462 L512 322 L642 462 L382 462 Z" fill="url(#goldGrad)"/>
+    <path d="M268 480 L512 710 L756 480 L690 480 L512 646 L334 480 Z" fill="#0D4A40" opacity="0.9"/>
+  </g>
+
+  <g transform="translate(0 5)">
+    <path d="M270 780 L524 514 L748 780" fill="none" stroke="#D7B55E" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M470 780 L512 660 L554 780" fill="none" stroke="#D7B55E" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M318 780 L512 590 L706 780" fill="none" stroke="#D7B55E" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g transform="translate(0 18)">
+    <path d="M224 525 L512 116 L800 525" fill="none" stroke="#F8E9AF" stroke-width="18" stroke-linecap="round" opacity="0.82"/>
+  </g>
+
+  <text x="512" y="850" text-anchor="middle" font-family="Georgia, serif" font-size="90" font-weight="700" fill="url(#goldGrad)" letter-spacing="3">
+    MTsN 6 SOLOK
+  </text>
+  <text x="512" y="905" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#D9B65E" letter-spacing="5">
+    APLIKASI PENDIDIKAN
+  </text>
+</svg>
