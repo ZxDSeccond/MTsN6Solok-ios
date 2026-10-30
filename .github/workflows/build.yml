@@ -25,10 +25,20 @@ jobs:
       - name: Run Build Script
         run: npm run build
 
-      - name: Force Clean and Generate iOS Platform
+      - name: Force Add iOS Platform via CLI
         run: |
-          rm -rf ios
-          node ./node_modules/@capacitor/cli/bin/capacitor add ios
+          npx @capacitor/cli add ios --force || true
+          npx @capacitor/cli update ios
+
+      - name: Verify iOS Workspace Exists
+        run: |
+          if [ -d "ios/App" ]; then
+            echo "iOS folder exists!"
+            ls -la ios/App
+          else
+            echo "Error: iOS folder missing!"
+            exit 1
+          fi
 
       - name: Build iOS App Archive
         run: |
