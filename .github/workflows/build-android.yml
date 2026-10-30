@@ -34,10 +34,15 @@ jobs:
           fi
           npx cap sync android
 
+      - name: Set Android SDK target to stable version
+        run: |
+          cd android
+          perl -0pi -e 's/compileSdkVersion = 36/compileSdkVersion = 35/g; s/targetSdkVersion = 36/targetSdkVersion = 35/g' variables.gradle
+
       - name: Build Debug APK
         run: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace --info
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
