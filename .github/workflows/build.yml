@@ -3,10 +3,11 @@ name: Build iOS App (.ipa)
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-  build-ios:
-    name: Build iOS IPA
+  build:
+    name: Build iOS App
     runs-on: macos-latest
 
     steps:
@@ -17,43 +18,43 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install Dependencies
-        run: |
-          npm install
+        run: npm install
 
-      - name: Sync Capacitor iOS
-        run: |
-          npx cap sync ios
+      - name: Build Web Assets
+        run: npm run build
 
-      - name: Build iOS App (Archive & IPA)
+      - name: Add iOS Platform
+        run: npx cap add ios
+
+      - name: Update Capacitor iOS
+        run: npx cap update ios
+
+      - name: Build iOS App Archive
         run: |
           cd ios/App
-          mkdir -p build
-          
-          # Build unsigned archive untuk eSign
           xcodebuild -workspace App.xcworkspace \
                      -scheme App \
-                     -sdk iphoneos \
                      -configuration Release \
+                     -sdk iphoneos \
+                     -archivePath App.xcarchive \
                      archive \
-                     -archivePath build/App.xcarchive \
                      CODE_SIGN_IDENTITY="" \
                      CODE_SIGNING_REQUIRED=NO \
                      CODE_SIGNING_ALLOWED=NO
 
-          # Export archive menjadi file .ipa
-          xcodebuild -exportArchive \
-                     -archivePath build/App.xcarchive \
-                     -exportOptionsPlist ../../ios/ExportOptions.plist \
-                     -exportPath build/ \
-                     CODE_SIGN_IDENTITY="" \
-                     CODE_SIGNING_REQUIRED=NO \
-                     CODE_SIGNING_ALLOWED=NO || true
+      - name: Export Unsigned IPA
+        run: |
+          cd ios/App
+          mkdir -p Payload
+          cp -r App.xcarchive/Products/Applications/App.app Payload/
+          zip -r CBT-MTsN6Solok.ipa Payload/
 
-      - name: Upload IPA Artifact
+      - name: Upload Artifact .ipa
         uses: actions/upload-artifact@v4
         with:
-          name: CBT-MTsN6Solok-IPA
-          path: ios/App/build/*.ipa
-# Trigger build iOS CBT MTsN 6 Solok
+          name: cbt-ios-ipa
+          path: ios/App/CBT-MTsN6Solok.ipa
+          
