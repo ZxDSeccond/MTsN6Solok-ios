@@ -56,3 +56,4 @@ jobs:
         with:
           name: CBT-MTsN6Solok-IPA
           path: ios/App/build/*.ipa
+# Trigger build iOS CBT MTsN 6 Solok
