@@ -18,16 +18,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Web Assets
+      - name: Run Build Script
         run: npm run build
 
       - name: Add iOS Platform
-        run: npx cap add ios
+        run: npx cap add ios || true
 
       - name: Update Capacitor iOS
         run: npx cap update ios
@@ -57,4 +56,3 @@ jobs:
         with:
           name: cbt-ios-ipa
           path: ios/App/CBT-MTsN6Solok.ipa
-          
