@@ -26,24 +26,31 @@ jobs:
           java-version: 17
           cache: gradle
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Ensure Android Platform Exists
+      - name: Ensure Android platform exists
         shell: bash
         run: |
           if [ ! -f android/gradlew ]; then
-            npx cap add android --no-interactive
+            npx cap add android --no-interactive || true
           fi
           npx cap sync android
 
-      - name: Build Debug APK
+      - name: Make gradlew executable
+        shell: bash
+        run: |
+          if [ -f android/gradlew ]; then
+            chmod +x android/gradlew
+          fi
+
+      - name: Build debug APK
         shell: bash
         run: |
           cd android
           ./gradlew assembleDebug --stacktrace --info
 
-      - name: Upload APK Artifact
+      - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
