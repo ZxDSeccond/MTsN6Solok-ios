@@ -17,13 +17,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Install Dependencies
         run: npm install
 
       - name: Run Build Script
         run: npm run build
+
+      - name: Force Clean and Generate iOS Platform
+        run: |
+          rm -rf ios
+          node ./node_modules/@capacitor/cli/bin/capacitor add ios
 
       - name: Build iOS App Archive
         run: |
