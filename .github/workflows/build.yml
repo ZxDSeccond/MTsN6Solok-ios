@@ -1,0 +1,58 @@
+name: Build iOS App (.ipa)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-ios:
+    name: Build iOS IPA
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Sync Capacitor iOS
+        run: |
+          npx cap sync ios
+
+      - name: Build iOS App (Archive & IPA)
+        run: |
+          cd ios/App
+          mkdir -p build
+          
+          # Build unsigned archive untuk eSign
+          xcodebuild -workspace App.xcworkspace \
+                     -scheme App \
+                     -sdk iphoneos \
+                     -configuration Release \
+                     archive \
+                     -archivePath build/App.xcarchive \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGNING_ALLOWED=NO
+
+          # Export archive menjadi file .ipa
+          xcodebuild -exportArchive \
+                     -archivePath build/App.xcarchive \
+                     -exportOptionsPlist ../../ios/ExportOptions.plist \
+                     -exportPath build/ \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED=NO \
+                     CODE_SIGNING_ALLOWED=NO || true
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CBT-MTsN6Solok-IPA
+          path: ios/App/build/*.ipa
