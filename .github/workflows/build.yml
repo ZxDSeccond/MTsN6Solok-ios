@@ -28,25 +28,24 @@ jobs:
       - name: Run Build Script
         run: npm run build
 
-      - name: Force Add iOS Platform via CLI
+      - name: Sync Capacitor iOS
         run: |
-          npx @capacitor/cli add ios --force || true
-          npx @capacitor/cli update ios
+          npx cap sync ios || npx @capacitor/cli sync ios
 
-      - name: Verify iOS Workspace Exists
+      - name: Verify iOS Project Exists
         run: |
-          if [ -d "ios/App" ]; then
-            echo "iOS folder exists!"
+          if [ -d "ios/App" ] && [ -f "ios/App/App.xcodeproj/project.pbxproj" ]; then
+            echo "iOS project exists!"
             ls -la ios/App
           else
-            echo "Error: iOS folder missing!"
+            echo "Error: iOS project missing!"
             exit 1
           fi
 
       - name: Build iOS App Archive
         run: |
           cd ios/App
-          xcodebuild -workspace App.xcworkspace \
+          xcodebuild -project App.xcodeproj \
                      -scheme App \
                      -configuration Release \
                      -sdk iphoneos \
