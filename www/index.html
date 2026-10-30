@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBT MTsN 6 Solok - Ujian Online Terpadu dengan Barcode & GForm</title>
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' data: blob: gap: https: http: 'unsafe-inline' 'unsafe-eval';
+        img-src 'self' data: blob: https:;
+        media-src 'self' data: blob: https:;
+        connect-src 'self' data: blob: https: http:;
+        child-src 'self' https:;
+        frame-src 'self' https:;
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:;
+        style-src 'self' 'unsafe-inline' https: http:;
+    ">
+    <title>CBT MTsN 6 Solok ~ ZxD</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,22 +21,10 @@
             theme: {
                 extend: {
                     colors: {
-                        emerald: {
-                            50: '#ecfdf5',
-                            100: '#d1fae5',
-                            600: '#059669',
-                            700: '#047857',
-                            800: '#065f46',
-                            900: '#064e3b',
-                        },
-                        teal: {
-                            600: '#0d9488',
-                            700: '#0f766e',
-                        }
+                        emerald: { 50: '#ecfdf5', 100: '#d1fae5', 600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b' },
+                        teal: { 600: '#0d9488', 700: '#0f766e' }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
@@ -37,9 +35,40 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
     <style>
-        body {
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
             font-family: 'Inter', sans-serif;
             user-select: none;
+            overscroll-behavior: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        .app-logo {
+            width: 92px;
+            height: 92px;
+            border-radius: 22px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.08);
+        }
+
+        .app-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
     </style>
 </head>
@@ -58,11 +87,10 @@
     </div>
 
     <main class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
-
         <div id="loginView" class="w-full max-w-md bg-white text-slate-800 rounded-3xl shadow-2xl p-8 border border-slate-100">
             <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-gradient-to-tr from-emerald-800 to-teal-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4 shadow-lg">
-                    <i class="fa-solid fa-qrcode"></i>
+                <div class="app-logo mx-auto mb-4">
+                    <img src="logo-app.svg" alt="MTsN 6 Solok logo">
                 </div>
                 <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full mb-2">CBT SECURE V2.3 + SCAN BARCODE</span>
                 <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">MTsN 6 SOLOK</h1>
@@ -109,14 +137,12 @@
             <div class="bg-white text-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 border border-slate-100">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-base text-slate-900"><i class="fa-solid fa-qrcode text-emerald-600 mr-2"></i> Scan Barcode / QR Soal</h3>
-                    <button onclick="toggleScannerModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600">
+                    <button type="button" onclick="toggleScannerModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <p class="text-xs text-slate-500">Arahkan kamera perangkat Anda ke arah QR Code atau Barcode lembar soal yang dibagikan guru pengawas.</p>
-
                 <div id="reader" class="w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-900"></div>
-
                 <button type="button" onclick="toggleScannerModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-xl text-xs">
                     Tutup Kamera
                 </button>
@@ -180,7 +206,6 @@
                 Keluar / Tutup Sesi Ujian
             </button>
         </div>
-
     </main>
 
     <footer class="bg-slate-950 py-4 text-center text-xs text-slate-500 border-t border-slate-800">
@@ -194,8 +219,10 @@
         let timeLeft = 45 * 60;
         let html5QrCode = null;
         let scannerIsRunning = false;
+        let examStartedAt = 0;
+        let violationCooldownUntil = 0;
 
-        const RELOAD_ON_BACKGROUND_DELAY = 1200;
+        const RELOAD_ON_BACKGROUND_DELAY = 1500;
 
         function safeLog(message, data = null) {
             console.log(message, data || '');
@@ -355,6 +382,8 @@
 
             examActive = true;
             violationCount = 0;
+            examStartedAt = Date.now();
+            violationCooldownUntil = Date.now() + 10000;
 
             enterFullScreen();
             startTimer();
@@ -375,6 +404,20 @@
         function handleViolation(reason) {
             if (!examActive) return;
 
+            const now = Date.now();
+
+            if (now < violationCooldownUntil) {
+                return;
+            }
+
+            if (now - examStartedAt < 8000) {
+                return;
+            }
+
+            if (scannerIsRunning) {
+                return;
+            }
+
             violationCount++;
             document.getElementById('violationCount').innerText = violationCount;
 
@@ -387,11 +430,19 @@
                 }, 2500);
             } else {
                 showNotification("Pelanggaran Kiosk!", `${reason} Peringatan ke-${violationCount}/3.`);
+                violationCooldownUntil = now + 3000;
             }
         }
 
         document.addEventListener("visibilitychange", () => {
-            if (examActive && document.hidden) {
+            if (!examActive) return;
+
+            if (document.hidden) {
+                const now = Date.now();
+
+                if (now - examStartedAt < 8000) return;
+                if (scannerIsRunning) return;
+
                 handleViolation("Tab / aplikasi lain terdeteksi!");
                 setTimeout(() => {
                     window.location.reload();
@@ -400,7 +451,14 @@
         });
 
         document.addEventListener("fullscreenchange", () => {
-            if (examActive && !document.fullscreenElement) {
+            if (!examActive) return;
+
+            if (!document.fullscreenElement) {
+                const now = Date.now();
+
+                if (now - examStartedAt < 8000) return;
+                if (scannerIsRunning) return;
+
                 handleViolation("Keluar dari Mode Fullscreen Terdeteksi!");
                 setTimeout(() => {
                     enterFullScreen();
@@ -409,19 +467,28 @@
         });
 
         window.addEventListener("blur", () => {
-            if (examActive) {
-                handleViolation("Aplikasi kehilangan fokus!");
-                setTimeout(() => {
-                    window.location.reload();
-                }, RELOAD_ON_BACKGROUND_DELAY);
-            }
+            if (!examActive) return;
+            if (scannerIsRunning) return;
+
+            const now = Date.now();
+            if (now - examStartedAt < 8000) return;
+
+            handleViolation("Aplikasi kehilangan fokus!");
+            setTimeout(() => {
+                window.location.reload();
+            }, RELOAD_ON_BACKGROUND_DELAY);
         });
 
         if (window.Capacitor) {
             const appApi = window.Capacitor.App;
             if (appApi && typeof appApi.addListener === 'function') {
                 appApi.addListener('appStateChange', ({ isActive }) => {
-                    if (examActive && !isActive) {
+                    if (!examActive) return;
+
+                    const now = Date.now();
+                    if (now - examStartedAt < 8000) return;
+
+                    if (!isActive) {
                         safeLog("App backgrounded, reloading kiosk");
                         setTimeout(() => {
                             window.location.reload();
