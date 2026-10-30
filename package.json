@@ -1,13 +1,14 @@
 {
-  "name": "downloads",
+  "name": "cbt-mtsn6solok",
   "version": "1.0.0",
-  "description": "",
+  "description": "CBT MTsN 6 Solok iOS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Skipping frontend build, assets ready in www\""
   },
   "keywords": [],
-  "author": "",
+  "author": "ZxD",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
